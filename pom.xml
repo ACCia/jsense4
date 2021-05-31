@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.bytedeco</groupId>
+    <artifactId>jsense4</artifactId>
+    <version>2.0-${project.parent.version}</version>
+    <properties>
+        <revision>2.0-${project.parent.version}</revision>
+        <javacpp.cppbuild.skip>true</javacpp.cppbuild.skip>
+    </properties>
+
+    <parent>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>javacpp-presets</artifactId>
+        <version>1.5.2-SNAPSHOT</version>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacpp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>systems-platform</artifactId>
+            <version>1.5.5</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+
+<!--            <plugin>-->
+<!--                <artifactId>maven-jlink-plugin</artifactId>-->
+<!--                <version>3.1.0</version>-->
+<!--                <extensions>true</extensions>-->
+
+<!--                <configuration>-->
+
+<!--                    <launcher> data-ma=jpphelloworld/org.bytedeco.jsense4.presets.HelloWorldTest</launcher>-->
+<!--                    &lt;!&ndash; configuration elements goes here &ndash;&gt;-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
+            <plugin>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacpp</artifactId>
+                <configuration>
+                    <deleteJniFiles>false</deleteJniFiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>mingw</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.bytedeco</groupId>
+                        <artifactId>javacpp</artifactId>
+                        <configuration>
+                            <properties>${javacpp.platform}-mingw</properties>
+                            <compilerOptions>
+                                <compilerOption>-static-libgcc</compilerOption>
+                                <compilerOption>-static-libstdc++</compilerOption>
+                                <compilerOption>-Wl,-Bstatic</compilerOption>
+                                <compilerOption>-lstdc++</compilerOption>
+                                <compilerOption>-lgcc</compilerOption>
+                                <compilerOption>-lgcc_eh</compilerOption>
+                                <compilerOption>-lpthread</compilerOption>
+                                <compilerOption>-Wl,-Bdynamic</compilerOption>
+                            </compilerOptions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
